@@ -4,7 +4,7 @@ namespace Lebenlabs\SimpleStorage\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class SimpleStorage extends Facade
+class SimpleStorageService extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class SimpleStorage extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'simplestorage';
+        return 'simplestorageservice';
     }
 }

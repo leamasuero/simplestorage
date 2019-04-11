@@ -6,7 +6,7 @@ namespace Lebenlabs\SimpleStorage\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use Lebenlabs\SimpleStorage\Facades\SimpleStorage;
+use Lebenlabs\SimpleStorage\Facades\SimpleStorageService;
 use Lebenlabs\SimpleStorage\Services\SimpleStorageService;
 
 class SimpleStorageServiceProvider extends ServiceProvider
@@ -36,7 +36,7 @@ class SimpleStorageServiceProvider extends ServiceProvider
 
         // Register the service the package provides.
         $this->app->bind(SimpleStorageService::class, function() {
-            return new SimpleStorage(
+            return new SimpleStorageService(
                 app('em'),
                 Storage::disk('archivos')
             );
