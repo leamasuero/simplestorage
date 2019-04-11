@@ -3,10 +3,8 @@
 
 namespace Lebenlabs\SimpleStorage\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use Lebenlabs\SimpleStorage\Facades\SimpleStorageService;
 use Lebenlabs\SimpleStorage\Services\SimpleStorageService;
 
 class SimpleStorageServiceProvider extends ServiceProvider
