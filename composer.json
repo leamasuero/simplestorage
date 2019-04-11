@@ -37,7 +37,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lebenlabs\\SimpleStorage\\SimpleStorageServiceProvider"
+                "Lebenlabs\\SimpleStorage\\Providers\\SimpleStorageServiceProvider"
             ],
             "aliases": {
                 "SimpleCMS": "Lebenlabs\\SimpleStorage\\Facades\\SimpleStorage"
