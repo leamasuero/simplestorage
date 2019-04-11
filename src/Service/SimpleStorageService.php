@@ -6,9 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\File;
 use SimpleCms\Repositories\StorageItemRepository;
-use SimpleStorage\Exceptions\NotFoundException;
-use SimpleStorage\Interfaces\Storable;
-use SimpleStorage\Models\StorageItem;
+use Lebenlabs\SimpleStorage\Exceptions\NotFoundException;
+use Lebenlabs\SimpleStorage\Interfaces\Storable;
+use Lebenlabs\SimpleStorage\Models\StorageItem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SimpleStorageService

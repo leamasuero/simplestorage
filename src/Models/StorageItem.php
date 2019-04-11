@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="lebenlabs_simplestorage_sotorage_items")
+ * @ORM\Table(name="lebenlabs_simplestorage_storage_items")
  * @ORM\HasLifecycleCallbacks
  */
 class StorageItem
@@ -114,5 +114,59 @@ class StorageItem
     public function getUrl()
     {
         return route('publico.archivos.show', $this->getId());
+    }
+
+    /**
+     * Get type extension of file
+     *
+     * @return string
+     *
+     */
+    public function getExtensionType()
+    {
+        $extension = pathinfo($this->original_filename, PATHINFO_EXTENSION);
+        $extensionType = 'file';
+        switch ($extension) {
+            case 'xls':
+            case 'xlsx':
+                $extensionType = 'file-excel';
+                break;
+
+            case 'doc':
+            case 'docx':
+            case 'odt':
+                $extensionType = 'file-word';
+                break;
+
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'bmp':
+            case 'gif':
+                $extensionType = 'file-image';
+                break;
+
+            case 'pdf':
+                $extensionType = 'file-pdf';
+                break;
+
+            case 'mp4':
+            case 'avi':
+            case 'ogg':
+            case 'webm':
+            case 'flv':
+            case 'wmb':
+            case 'wmv':
+                $extensionType = 'file-video';
+                break;
+
+            case 'mp3':
+            case 'wav':
+                $extensionType = 'file-audio';
+                break;
+
+        }
+
+        return $extensionType;
     }
 }
