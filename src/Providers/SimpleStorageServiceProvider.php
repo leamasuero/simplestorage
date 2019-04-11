@@ -19,10 +19,6 @@ class SimpleStorageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publishing is only necessary when using the CLI.
-        if ($this->app->runningInConsole()) {
-            $this->bootForConsole();
-        }
     }
 
     /**
