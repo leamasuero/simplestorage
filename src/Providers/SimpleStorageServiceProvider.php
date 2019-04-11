@@ -33,7 +33,7 @@ class SimpleStorageServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge config of simple cms package
-        //$this->mergeConfigFrom(__DIR__.'/../config/simplestorage.php', 'simplestorage');
+        $this->mergeConfigFrom(__DIR__.'/../../config/simplestorage.php', 'simplestorage');
 
         // Register the service the package provides.
         $this->app->bind(SimpleStorageService::class, function() {
