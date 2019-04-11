@@ -40,7 +40,7 @@
                 "Lebenlabs\\SimpleStorage\\Providers\\SimpleStorageServiceProvider"
             ],
             "aliases": {
-                "SimpleCMS": "Lebenlabs\\SimpleStorage\\Facades\\SimpleStorage"
+                "SimpleStorage": "Lebenlabs\\SimpleStorage\\Facades\\SimpleStorage"
             }
         }
     }
