@@ -19,6 +19,9 @@ class SimpleStorageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        // Publish Migrations
+        $this->publishes([__DIR__.'/Database/Migrations' => database_path('migrations')]);
     }
 
     /**
@@ -38,5 +41,15 @@ class SimpleStorageServiceProvider extends ServiceProvider
                 Storage::disk('archivos')
             );
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['SimpleStorage'];
     }
 }

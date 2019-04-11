@@ -64,6 +64,7 @@ class SimpleStorageService
     /**
      * @param int $id
      * @return bool
+     * @throws NotFoundException
      */
     public function remove($id)
     {

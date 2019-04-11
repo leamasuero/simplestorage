@@ -22,7 +22,7 @@ class ArchivosController extends Controller
     /**
      * @param $id
      * @return Response
-     * @throws \SimpleStorage\Exceptions\NotFoundException
+     * @throws \Lebenlabs\SimpleStorage\Exceptions\NotFoundException
      */
     public function show($id)
     {
