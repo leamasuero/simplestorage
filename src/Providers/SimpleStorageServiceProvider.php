@@ -19,10 +19,10 @@ class SimpleStorageServiceProvider extends ServiceProvider
     {
 
         // Load Routes
-        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
 
         // Publish Migrations
-        $this->publishes([__DIR__.'/Database/Migrations' => database_path('migrations')]);
+        $this->publishes([__DIR__.'/../Database/Migrations' => database_path('migrations')]);
     }
 
     /**
