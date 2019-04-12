@@ -4,7 +4,9 @@ namespace Lebenlabs\SimpleStorage\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem;
 use SimpleCms\Repositories\StorageItemRepository;
 use Lebenlabs\SimpleStorage\Exceptions\NotFoundException;
 use Lebenlabs\SimpleStorage\Interfaces\Storable;
@@ -41,9 +43,10 @@ class SimpleStorageService
      * @param Storable $entidad
      * @param UploadedFile $archivo
      */
-    public function put(Storable $entidad, UploadedFile $archivo)
+    public function put(Storable $entidad, UploadedFile $archivo, array $atributos = [])
     {
-        $storageItem = new StorageItem($entidad, $archivo);
+        $atributosStorageItem = new AtributosStorageItem(Arr::get($atributos, 'exclusivo', false));
+        $storageItem = new StorageItem($entidad, $archivo, $atributosStorageItem);
 
         $this->storage->put($storageItem->getFilename(), File::get($archivo));
 

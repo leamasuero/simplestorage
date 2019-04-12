@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Lebenlabs\SimpleStorage\Interfaces\Storable;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem;
 
 /**
  * @ORM\Entity
@@ -50,7 +51,14 @@ class StorageItem
      */
     private $entidad;
 
-    public function __construct(Storable $entidad, UploadedFile $archivo)
+    /**
+     * @ORM\Embedded(class="Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem")
+     * @var AtributosStorageItem
+     */
+    private $atributos;
+
+
+    public function __construct(Storable $entidad, UploadedFile $archivo, AtributosStorageItem $atributos = null)
     {
         $this->archivo = $archivo;
         $this->entidad = $entidad;
@@ -61,6 +69,8 @@ class StorageItem
         $this->original_filename = $archivo->getClientOriginalName();
 
         $this->entidad_id = $entidad->getStorageId();
+
+        $this->atributos = $atributos;
     }
 
     public function getId()
@@ -168,5 +178,13 @@ class StorageItem
         }
 
         return $extensionType;
+    }
+
+    /**
+     * @return AtributosStorageItem
+     */
+    public function getAtributos()
+    {
+        return $this->atributos;
     }
 }
