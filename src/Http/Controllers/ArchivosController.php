@@ -2,7 +2,6 @@
 
 namespace Lebenlabs\SimpleStorage\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Lebenlabs\SimpleStorage\Services\SimpleStorageService;
 

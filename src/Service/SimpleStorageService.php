@@ -82,6 +82,7 @@ class SimpleStorageService
      * @param int $id
      * @return StorageItem
      * @throws NotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function find($id)
     {
@@ -104,8 +105,35 @@ class SimpleStorageService
         return $this->storage->mimeType($item->getFilename());
     }
 
+    /**
+     * @param StorageItem $item
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function getFile(StorageItem $item)
     {
         return $this->storage->get($item->getFilename());
+    }
+
+    /**
+     * @param $id
+     * @param array $atributos
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function setAtributos($id, array $atributos = [])
+    {
+        $storageItem = $this->storageItemRepository->find($id);
+        if (!$storageItem) {
+            throw new NotFoundException();
+        }
+
+        //Set de posibles atributos
+        $storageItem->setAtributosFromArray($atributos);
+
+        $this->em->persist($storageItem);
+        $this->em->flush();
+
+        return $storageItem;
     }
 }

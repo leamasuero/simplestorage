@@ -187,4 +187,14 @@ class StorageItem
     {
         return $this->atributos;
     }
+
+    /**
+     * @param array $atributos
+     * @return $this
+     */
+    public function setAtributosFromArray(array $atributos = [])
+    {
+        $this->atributos->setAtributosFromArray($atributos);
+        return $this;
+    }
 }

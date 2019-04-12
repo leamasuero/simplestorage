@@ -43,4 +43,16 @@ class AtributosStorageItem
     {
         return $this->exclusivo ? 'exclusivo' : '';
     }
+
+    /**
+     * @param array $atributos
+     * @return $this
+     */
+    public function setAtributosFromArray(array $atributos = [])
+    {
+        $this->exclusivo = (isset($atributos['exclusivo']) ? $atributos['exclusivo'] : $this->exclusivo);
+
+        return $this;
+    }
+
 }
