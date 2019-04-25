@@ -97,6 +97,22 @@ class SimpleStorageService
     }
 
     /**
+     * @return array
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function findAll()
+    {
+        $storageItems = $this->storageItemRepository->findAll();
+
+        foreach ($storageItems as $storageItem) {
+            $archivo = $this->getFile($storageItem);
+            $storageItem->setArchivo($archivo);
+        }
+
+        return $storageItems;
+    }
+
+    /**
      * @param StorageItem $item
      * @return string
      */

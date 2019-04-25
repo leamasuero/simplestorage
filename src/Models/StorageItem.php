@@ -88,6 +88,11 @@ class StorageItem
         return $this->entidad;
     }
 
+    public function getEntidadId()
+    {
+        return $this->entidad_id;
+    }
+
     public function setEntidad($entidad)
     {
         $this->entidad = $entidad;
