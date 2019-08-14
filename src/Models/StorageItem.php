@@ -64,7 +64,7 @@ class StorageItem
         $this->entidad = $entidad;
 
         $this->created_at = new DateTime;
-        $this->filename = $this->created_at->format('U') . '-' . $imagenFile->getClientOriginalName();
+        $this->filename = $this->created_at->format('U') . '-' . $archivo->getClientOriginalName();
         $this->original_filename = $archivo->getClientOriginalName();
 
         $this->entidad_id = $entidad->getStorageId();
