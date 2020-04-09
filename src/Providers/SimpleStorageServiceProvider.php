@@ -3,6 +3,7 @@
 
 namespace Lebenlabs\SimpleStorage\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Lebenlabs\SimpleStorage\Services\SimpleStorageService;
@@ -17,12 +18,8 @@ class SimpleStorageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        // Load Routes
-        $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
-
         // Publish Migrations
-        $this->publishes([__DIR__.'/../Database/Migrations' => database_path('migrations')]);
+        $this->publishes([__DIR__ . '/../Database/Migrations' => database_path('migrations')]);
     }
 
     /**
@@ -33,12 +30,12 @@ class SimpleStorageServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge config of simple cms package
-        $this->mergeConfigFrom(__DIR__.'/../../config/simplestorage.php', 'simplestorage');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/simplestorage.php', 'simplestorage');
 
         // Register the service the package provides.
-        $this->app->bind(SimpleStorageService::class, function() {
+        $this->app->bind(SimpleStorageService::class, function () {
             return new SimpleStorageService(
-                app('em'),
+                DB::connection('mysql')->getDoctrineConnection(),
                 Storage::disk('archivos')
             );
         });

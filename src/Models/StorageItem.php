@@ -3,46 +3,36 @@
 namespace Lebenlabs\SimpleStorage\Models;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Support\Arr;
 use Lebenlabs\SimpleStorage\Interfaces\Storable;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="lebenlabs_simplestorage_storage_items")
- * @ORM\HasLifecycleCallbacks
- */
 class StorageItem
 {
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @var int
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=250, unique=true, nullable=false)
-     * @var string 
+     * @var string
      */
     private $filename;
 
     /**
-     * @ORM\Column(type="string", length=250, nullable=false)
-     * @var string 
+     * @var string
      */
-    private $original_filename;
+    private $originalFilename;
 
     /**
-     * @ORM\Column(type="string", length=250, nullable=false)
-     * @var string 
+     * @var string
      */
-    private $entidad_id;
+    private $entidadId;
 
     /**
-     * @var string 
+     * @var string
      */
     private $archivo;
 
@@ -52,24 +42,26 @@ class StorageItem
     private $entidad;
 
     /**
-     * @ORM\Embedded(class="Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem")
-     * @var AtributosStorageItem
+     * @var array
      */
     private $atributos;
 
 
-    public function __construct(Storable $entidad, UploadedFile $archivo, AtributosStorageItem $atributos = null)
+    public function __construct(Storable $entidad = null, UploadedFile $archivo = null, array $atributos = [])
     {
-        $this->archivo = $archivo;
         $this->entidad = $entidad;
+        $this->archivo = $archivo;
+        $this->setAtributos($atributos);
 
-        $this->created_at = new DateTime;
-        $this->filename = $this->created_at->format('U') . '-' . $archivo->getClientOriginalName();
-        $this->original_filename = $archivo->getClientOriginalName();
+        if ($archivo) {
+            $this->originalFilename = $archivo->getClientOriginalName();
+            $this->filename = (new DateTime())->format('U') . '-' . $archivo->getClientOriginalName();
+        }
 
-        $this->entidad_id = $entidad->getStorageId();
+        if ($entidad) {
+            $this->entidadId = $entidad->getStorageId();
+        }
 
-        $this->atributos = $atributos;
     }
 
     public function getId()
@@ -77,10 +69,43 @@ class StorageItem
         return $this->id;
     }
 
+    public function setId(int $id): StorageItem
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getFilename()
     {
         return $this->filename;
     }
+
+    /**
+     * @param string $filename
+     * @return StorageItem
+     */
+    public function setFilename(string $filename): StorageItem
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * @param string $entidadId
+     * @return StorageItem
+     */
+    public function setEntidadId(string $entidadId): StorageItem
+    {
+        $this->entidadId = $entidadId;
+        return $this;
+    }
+
+    public function setAtributos(array $atributos = []): StorageItem
+    {
+        $this->atributos = json_encode($atributos);
+        return $this;
+    }
+
 
     public function getEntidad()
     {
@@ -89,7 +114,7 @@ class StorageItem
 
     public function getEntidadId()
     {
-        return $this->entidad_id;
+        return $this->entidadId;
     }
 
     public function setEntidad($entidad)
@@ -105,12 +130,12 @@ class StorageItem
 
     public function getOriginalFilename()
     {
-        return $this->original_filename;
+        return $this->originalFilename;
     }
 
     public function setOriginalFilename($originalFilename)
     {
-        $this->original_filename = $originalFilename;
+        $this->originalFilename = $originalFilename;
         return $this;
     }
 
@@ -138,7 +163,7 @@ class StorageItem
      */
     public function getExtensionType()
     {
-        $extension = pathinfo($this->original_filename, PATHINFO_EXTENSION);
+        $extension = pathinfo($this->originalFilename, PATHINFO_EXTENSION);
         $extensionType = 'file';
         switch ($extension) {
             case 'xls':
@@ -185,20 +210,16 @@ class StorageItem
     }
 
     /**
-     * @return AtributosStorageItem
+     * @return array
      */
-    public function getAtributos()
+    public function getAtributos(): array
     {
-        return $this->atributos;
+        return json_decode($this->atributos);
     }
 
-    /**
-     * @param array $atributos
-     * @return $this
-     */
-    public function setAtributosFromArray(array $atributos = [])
+    public function getAtributo($key): ?string
     {
-        $this->atributos->setAtributosFromArray($atributos);
-        return $this;
+        return Arr::get($this->getAtributos(), $key);
     }
+
 }
