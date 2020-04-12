@@ -1,12 +1,13 @@
 <?php
 
-namespace Lebenlabs\SimpleStorage\Factories;
+namespace Lebenlabs\SimpleStorage\Transformers;
 
+use Lebenlabs\SimpleStorage\Interfaces\Transformer;
 use Lebenlabs\SimpleStorage\Models\StorageItem;
 
-class StorageItemFactory
+class StorageItemTransformer implements Transformer
 {
-    public static function create(array $row): StorageItem
+    public function transform(array $row): StorageItem
     {
         $item = new StorageItem();
 
@@ -18,7 +19,7 @@ class StorageItemFactory
 
     }
 
-    public static function transform(array $rows): array
+    public function transformCollection(iterable $rows): iterable
     {
         $items = [];
         foreach ($rows as $row) {

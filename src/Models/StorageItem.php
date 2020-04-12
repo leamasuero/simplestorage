@@ -64,7 +64,7 @@ class StorageItem
 
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -75,7 +75,7 @@ class StorageItem
         return $this;
     }
 
-    public function getFilename()
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -112,7 +112,7 @@ class StorageItem
         return $this->entidad;
     }
 
-    public function getEntidadId()
+    public function getEntidadId(): ?string
     {
         return $this->entidadId;
     }
@@ -128,31 +128,26 @@ class StorageItem
         return $this->getOriginalFilename();
     }
 
-    public function getOriginalFilename()
+    public function getOriginalFilename(): ?string
     {
         return $this->originalFilename;
     }
 
-    public function setOriginalFilename($originalFilename)
+    public function setOriginalFilename(string $originalFilename): StorageItem
     {
         $this->originalFilename = $originalFilename;
         return $this;
     }
 
-    public function getArchivo()
+    public function getArchivo(): ?string
     {
         return $this->archivo;
     }
 
-    public function setArchivo($archivo)
+    public function setArchivo(string $archivo): StorageItem
     {
         $this->archivo = $archivo;
         return $this;
-    }
-
-    public function getUrl()
-    {
-        return route('publico.archivos.show', $this->getId());
     }
 
     /**
@@ -161,7 +156,7 @@ class StorageItem
      * @return string
      *
      */
-    public function getExtensionType()
+    public function getExtensionType(): string
     {
         $extension = pathinfo($this->originalFilename, PATHINFO_EXTENSION);
         $extensionType = 'file';
@@ -214,7 +209,7 @@ class StorageItem
      */
     public function getAtributos(): array
     {
-        return json_decode($this->atributos);
+        return json_decode($this->atributos, true);
     }
 
     public function getAtributo($key): ?string

@@ -3,7 +3,7 @@
 namespace Lebenlabs\SimpleStorage\Repositories;
 
 use Doctrine\DBAL\Connection;
-use Lebenlabs\SimpleStorage\Factories\StorageItemFactory;
+use Lebenlabs\SimpleStorage\Transformers\StorageItemTransformer;
 use Lebenlabs\SimpleStorage\Models\StorageItem;
 
 class StorageItemRepo
@@ -14,16 +14,22 @@ class StorageItemRepo
      */
     private $connection;
 
+    /**
+     * @var StorageItemTransformer
+     */
+    private $storageItemTransformer;
+
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
+        $this->storageItemTransformer = new StorageItemTransformer();
     }
 
     public function find(int $id): StorageItem
     {
         $qb = $this->connection->createQueryBuilder();
         $qb->select('*')
-            ->from('lebenlabs_simplestorage_storage_items')
+            ->from('simplestorage_storage_items')
             ->where('id = :id')
             ->setParameter(':id', $id)->setMaxResults(1);
 
@@ -33,14 +39,14 @@ class StorageItemRepo
             return null;
         }
 
-        return StorageItemFactory::create($st->fetch());
+        return $this->storageItemTransformer->transform($st->fetch());
     }
 
     public function findByEntidadId(string $entidadId): ?array
     {
         $qb = $this->connection->createQueryBuilder();
         $qb->select('*')
-            ->from('lebenlabs_simplestorage_storage_items')
+            ->from('simplestorage_storage_items')
             ->where('entidad_id = :entidad_id')
             ->setParameter(':entidad_id', $entidadId);
 
@@ -50,15 +56,14 @@ class StorageItemRepo
             return [];
         }
 
-        return StorageItemFactory::transform($st->fetchAll());
+        return $this->storageItemTransformer->transformCollection($st->fetchAll());
     }
 
-    public function insert(StorageItem $item)
+    public function insert(StorageItem $item): int
     {
         $qb = $this->connection->createQueryBuilder();
-        $qb->insert('lebenlabs_simplestorage_storage_items')
-            ->values(
-                [
+        $qb->insert('simplestorage_storage_items')
+            ->values([
                     'filename' => ':filename',
                     'original_filename' => ':original_filename',
                     'entidad_id' => ':entidad_id',
@@ -69,7 +74,7 @@ class StorageItemRepo
                 'filename' => $item->getFilename(),
                 'original_filename' => $item->getOriginalFilename(),
                 'entidad_id' => $item->getEntidadId(),
-                'atributos_exclusivo' => (int) !!$item->getAtributo('exclusivo')
+                'atributos_exclusivo' => (int)!!$item->getAtributo('exclusivo')
             ]);
 
         return $qb->execute();
@@ -79,7 +84,7 @@ class StorageItemRepo
     {
         $qb = $this->connection->createQueryBuilder();
 
-        $qb->delete('lebenlabs_simplestorage_storage_items')
+        $qb->delete('simplestorage_storage_items')
             ->where('id = :id')
             ->setParameters([
                 'id' => $item->getId(),
