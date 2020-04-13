@@ -11,6 +11,8 @@ use Lebenlabs\SimpleStorage\Embeddables\AtributosStorageItem;
 class StorageItem
 {
 
+    public static $tabla = 'simplestorage_storage_items';
+
     /**
      * @var int
      */

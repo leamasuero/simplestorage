@@ -29,7 +29,7 @@ class StorageItemRepo
     {
         $qb = $this->connection->createQueryBuilder();
         $qb->select('*')
-            ->from('simplestorage_storage_items')
+            ->from(StorageItem::$tabla)
             ->where('id = :id')
             ->setParameter(':id', $id)->setMaxResults(1);
 
@@ -46,7 +46,7 @@ class StorageItemRepo
     {
         $qb = $this->connection->createQueryBuilder();
         $qb->select('*')
-            ->from('simplestorage_storage_items')
+            ->from(StorageItem::$tabla)
             ->where('entidad_id = :entidad_id')
             ->setParameter(':entidad_id', $entidadId);
 
@@ -62,7 +62,7 @@ class StorageItemRepo
     public function insert(StorageItem $item): int
     {
         $qb = $this->connection->createQueryBuilder();
-        $qb->insert('simplestorage_storage_items')
+        $qb->insert(StorageItem::$tabla)
             ->values([
                     'filename' => ':filename',
                     'original_filename' => ':original_filename',
@@ -84,7 +84,7 @@ class StorageItemRepo
     {
         $qb = $this->connection->createQueryBuilder();
 
-        $qb->delete('simplestorage_storage_items')
+        $qb->delete(StorageItem::$tabla)
             ->where('id = :id')
             ->setParameters([
                 'id' => $item->getId(),
