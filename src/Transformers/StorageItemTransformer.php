@@ -23,7 +23,7 @@ class StorageItemTransformer implements Transformer
     {
         $items = [];
         foreach ($rows as $row) {
-            $items[] = self::create($row);
+            $items[] = self::transform($row);
         }
 
         return $items;
