@@ -13,7 +13,7 @@ class CreateStorageItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('simplecms_storage_items', function (Blueprint $table) {
+        Schema::create('simplestorage_storage_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('filename');
             $table->string('original_filename');
@@ -30,6 +30,6 @@ class CreateStorageItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('simplecms_storage_items');
+        Schema::dropIfExists('simplestorage_storage_items');
     }
 }
