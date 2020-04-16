@@ -67,14 +67,14 @@ class StorageItemRepo
                     'filename' => ':filename',
                     'original_filename' => ':original_filename',
                     'entidad_id' => ':entidad_id',
-                    'atributos_exclusivo' => ':atributos_exclusivo',
+                    'atributos' => ':atributos',
                 ]
             )
             ->setParameters([
                 'filename' => $item->getFilename(),
                 'original_filename' => $item->getOriginalFilename(),
                 'entidad_id' => $item->getEntidadId(),
-                'atributos_exclusivo' => (int)!!$item->getAtributo('exclusivo')
+                'atributos' => json_encode($item->getAtributos())
             ]);
 
         return $qb->execute();
