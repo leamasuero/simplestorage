@@ -26,13 +26,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Lebenlabs\\SimpleStorage\\": "src/"
+            "Lebenlabs\\": "src/Lebenlabs"
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "Lebenlabs\\SimpleStorage\\Tests\\": "tests"
-        }
     },
     "extra": {
         "laravel": {
